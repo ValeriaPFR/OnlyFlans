@@ -1,0 +1,67 @@
+{% extends "base.html" %}
+
+{% block content %}
+<div class="container">
+    <h1 class="my-4">Gestión de Clientes</h1>
+
+    <form action="{% url 'save_customer' %}" method="POST">
+        {% csrf_token %}
+        <div class="mb-3">
+            <label for="name" class="form-label">Nombre</label>
+            <input type="text" class="form-control" id="name" name="name" required>
+        </div>
+        <div class="mb-3">
+            <label for="lastname" class="form-label">Apellido</label>
+            <input type="text" class="form-control" id="lastname" name="lastname" required>
+        </div>
+        <div class="mb-3">
+            <label for="birth_date" class="form-label">Fecha de Nacimiento</label>
+            <input type="date" class="form-control" id="birth_date" name="birth_date" required>
+        </div>
+        <div class="mb-3">
+            <label for="email" class="form-label">Email</label>
+            <input type="email" class="form-control" id="email" name="email" aria-describedby="emailHelp" required>
+            <div id="emailHelp" class="form-text">Nunca compartiremos tu email con nadie más.</div>
+        </div>
+        <div class="mb-3">
+            <label for="address" class="form-label">Dirección</label>
+            <input type="text" class="form-control" id="address" name="address" required>
+        </div>
+
+        <button type="submit" class="btn btn-primary">Guardar Cliente</button>
+    </form>
+
+    <hr>
+
+    <h2 class="my-4">Lista de Clientes</h2>
+    <table class="table table-striped">
+        <thead>
+            <tr>
+                <th scope="col">#</th>
+                <th scope="col">Nombre</th>
+                <th scope="col">Fecha de Nacimiento</th>
+                <th scope="col">Email</th>
+                <th scope="col">Estado</th>
+                <th scope="col">Dirección</th>
+                <th scope="col-2">Acciones</th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for client in customers_list %}
+            <tr>
+                <th scope="row">{{ client.id }}</th>
+                <td>{{ client.name }} {{ client.lastname }}</td>
+                <td>{{ client.birth_date }}</td>
+                <td>{{ client.email }}</td>
+                <td>{{ client.is_active|yesno:"Activo,Inactivo" }}</td>
+                <td>{{ client.address }}</td>
+                <td>
+                    <a href="{% url 'edit_customer' client.id %}" class="btn btn-sm btn-warning">Editar</a>
+                    <a href="{% url 'delete_customer' client.id %}" class="btn btn-sm btn-danger">Eliminar</a>
+                </td>
+            </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+</div>
+{% endblock %}

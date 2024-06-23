@@ -1,0 +1,158 @@
+<!--Formulario de Registro de Usuarios=Clientes-->
+{% extends 'base.html' %}
+{% block content %}
+{% block title %}
+{% load static %}
+<div class="col-md-4">
+    <a href="{% url 'index' %}">
+        <img src="{% static 'img/OnlyFlans.png' %}" alt="login" width="45%">
+    </a>
+</div>
+{% endblock %}
+<div class="container">
+    <div class="row justify-content-center">
+        <div class="col-md-7 col-lg-8">
+            <div class="card shadow-lg p-4">
+                <h4 class="mb-4 text-center">Registro de Clientes</h4>
+                <form action="{% url 'registration' %}" method="post" novalidate id="registrationForm">
+                    {% csrf_token %}
+                    <div class="row g-3">
+                        <div class="col-sm-6">
+                            <label for="id_name" class="form-label fs-5">Nombre</label>
+                            <input type="text" name="name" class="form-control border border-primary {% if form.name.errors %} is-invalid {% endif %}" id="id_name" required>
+                            {% for error in form.name.errors %}
+                                <div class="invalid-feedback">{{ error }}</div>
+                            {% endfor %}
+                        </div>
+
+                        <div class="col-sm-6">
+                            <label for="id_lastname" class="form-label fs-5">Apellido</label>
+                            <input type="text" name="lastname" class="form-control border border-primary {% if form.lastname.errors %} is-invalid {% endif %}" id="id_lastname" required>
+                            {% for error in form.lastname.errors %}
+                                <div class="invalid-feedback">{{ error }}</div>
+                            {% endfor %}
+                        </div>
+
+                        <div class="col-sm-6">
+                            <label for="id_username" class="form-label fs-5">Username</label>
+                            <input type="text" name="username" class="form-control border border-primary {% if form.username.errors %} is-invalid {% endif %}" id="id_username" required>
+                            {% for error in form.username.errors %}
+                                <div class="invalid-feedback">{{ error }}</div>
+                            {% endfor %}
+                        </div>
+
+                        <div class="col-sm-6">
+                            <label for="id_birth_date" class="form-label fs-5">Fecha de Nacimiento</label>
+                            <input type="date" name="birth_date" class="form-control border border-primary {% if form.birth_date.errors %} is-invalid {% endif %}" id="id_birth_date" required>
+                            {% for error in form.birth_date.errors %}
+                                <div class="invalid-feedback">{{ error }}</div>
+                            {% endfor %}
+                        </div>
+
+                        <div class="col-sm-12">
+                            <label for="id_email" class="form-label fs-5">Correo Electrónico</label>
+                            <input type="email" name="email" class="form-control border border-primary {% if form.email.errors %} is-invalid {% endif %}" id="id_email" required>
+                            {% for error in form.email.errors %}
+                                <div class="invalid-feedback">{{ error }}</div>
+                            {% endfor %}
+                        </div>
+
+                        <div class="col-12">
+                            <label for="id_address" class="form-label fs-5">Dirección</label>
+                            <input type="text" name="address" class="form-control border border-primary {% if form.address.errors %} is-invalid {% endif %}" id="id_address" required>
+                            {% for error in form.address.errors %}
+                                <div class="invalid-feedback">{{ error }}</div>
+                            {% endfor %}
+                        </div>
+
+                        <div class="col-12">
+                            <label for="id_password" class="form-label fs-5">Contraseña</label>
+                            <input type="password" name="password" class="form-control border border-primary {% if form.password.errors %} is-invalid {% endif %}" id="id_password" required minlength="8">
+                            {% for error in form.password.errors %}
+                                <div class="invalid-feedback">{{ error }}</div>
+                            {% endfor %}
+                        </div>
+
+                        <div class="col-12">
+                            <label for="id_confirm_password" class="form-label fs-5">Confirmar Contraseña</label>
+                            <input type="password" name="confirm_password" class="form-control border border-primary {% if form.confirm_password.errors %} is-invalid {% endif %}" id="id_confirm_password" required minlength="8">
+                            {% for error in form.confirm_password.errors %}
+                                <div class="invalid-feedback">{{ error }}</div>
+                            {% endfor %}
+                        </div>
+                    </div>
+                    <hr class="my-4">
+                    <div class="form-check">
+                        <input type="checkbox" class="form-check-input" id="save-info">
+                        <label class="form-check-label fs-5" for="save-info">Guardar esta información para la próxima vez</label>
+                    </div>
+                    <!-- Botón para enviar el formulario y abrir el modal -->
+                    <input type="submit" id="submitBtn" class="btn btn-success btn-lg rounded-pill" value="Registrar y Continuar" data-bs-toggle="modal" data-bs-target="#exampleModal">
+                    <!--<button type="submit" class="btn btn-primary btn-lg rounded-pill mt-3">Registrar y Continuar</button>-->
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
+
+    <!--Footer-->
+    {% block footer %}
+        {% include 'footer.html' %}
+    {% endblock %}
+
+<!-- Modal de confirmación -->
+<div class="modal fade" id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="exampleModalLabel">¡Registro Exitoso!</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body">
+                <p>¡Felicidades! Ya puedes disfrutar de nuestros flanes con un 25% de descuento en la primera compra.</p>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cerrar</button>
+                <button type="button" class="btn btn-primary" id="saveDataBtn">Guardar Datos</button>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!--Navbar oculto-->
+{% endblock %}
+{% block javascript %}
+<script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+    <script>
+        var show_navbar = false;
+        $(document).ready(function() {
+            $('#submitBtn').click(function() {
+                var form = $('#registrationForm')[0];
+                if (form.checkValidity()) {
+                    $('#exampleModal').modal('show');
+                } else {
+                    form.reportValidity();
+                }
+            });
+    
+            $('#saveDataBtn').click(function() {
+                var formData = $('#registrationForm').serialize();
+                $.ajax({
+                    url: "{% url 'registration' %}",
+                    type: "POST",
+                    data: formData,
+                    success: function(response) {
+                        // Aquí puedes manejar la respuesta del servidor si es necesario
+                        console.log(response);
+                        window.location.href = "{% url 'welcome' %}"; // Redirige a la página de bienvenida después de guardar los datos
+                    },
+                    error: function(xhr, status, error) {
+                        // Manejo de errores si la solicitud AJAX falla
+                        console.error(xhr.responseText);
+                    }
+                });
+            });
+        });
+    </script>
+
+{% endblock %}

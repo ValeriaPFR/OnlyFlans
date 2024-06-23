@@ -1,0 +1,61 @@
+<!--Mensaje en template, del Logout-->
+{% extends "base.html" %}
+{% load static %}
+
+{% block content %}
+<img src="{% static 'img/OnlyFlans.png' %}" alt="logo" style="height: 80px; width: auto;">
+<div class="col">
+    <div class="card h-100 overflow-hidden rounded-4 shadow-lg">
+        <div class="row g-0 h-100">
+            <!-- Columna de la imagen -->
+            <div class="col-md-4">
+                <img src="{% static 'img/flanChantilly.jpg' %}" alt="Flan Chantilly" class="img-fluid h-100 w-100" style="object-fit: cover;">
+            </div>
+            <!-- Columna del texto y botones -->
+            <div class="col-md-8 text-bg-dark d-flex flex-column p-5">
+                <div class="flex-grow-1 d-flex flex-column justify-content-center">
+                    <h3 class="mb-4 display-6 lh-1 fw-bold">¡Sesión finalizada!</h3>
+                    <h4 class="mb-4 display-6 lh-1 fw-bold">Gracias por visitarnos. Esperamos verte pronto.</h4>
+                </div>
+                <div class="mt-auto">
+                    <div class="d-flex justify-content-center">
+                        <button type="button" class="btn btn-lg btn-secondary me-2" data-bs-toggle="modal" data-bs-target="#loginModal">
+                            Ver Flanes Privados
+                        </button>
+                        <a href="{% url 'index' %}" class="btn btn-lg btn-light">
+                            Ver Flanes Públicos
+                        </a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+<!-- Modal para Ingresar nuevamente -->
+<div class="modal fade" id="loginModal" tabindex="-1" aria-labelledby="loginModalLabel" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="loginModalLabel">Iniciar Sesión</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body">
+                <form id="loginForm" method="post" action="{% url 'login' %}">
+                    {% csrf_token %}
+                    <div class="mb-3">
+                        <label for="username" class="form-label">Correo electrónico</label>
+                        <input type="email" class="form-control" id="username" name="username" placeholder="Correo electrónico" required>
+                    </div>
+                    <div class="mb-3">
+                        <label for="password" class="form-label">Contraseña</label>
+                        <input type="password" class="form-control" id="password" name="password" placeholder="Contraseña" required>
+                    </div>
+                    <button type="submit" class="btn btn-primary">Iniciar Sesión</button>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}
